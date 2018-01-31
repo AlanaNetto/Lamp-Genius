@@ -18,9 +18,10 @@ public class GameController : MonoBehaviour
     List<int> sequence = new List<int>();
     public Transform[] lamps;
 
+    public GameObject menuObj;
     public GameObject messageObj;
     public Sprite brokenLamp;
-
+    
     private void Awake()
     {
         if (!instante)
@@ -38,6 +39,7 @@ public class GameController : MonoBehaviour
         }
         SendGameMessage("Nível " + level.ToString());
         StartCoroutine("PlaySequence");
+        menuObj.SetActive(false);
     }
 
     void Update()
@@ -88,7 +90,8 @@ public class GameController : MonoBehaviour
                 level++;
                 if (level > 10)
                 {
-                    SendGameMessage("AEAE VENCEU");
+                    menuObj.transform.FindChild("Message").GetComponent<Text>().text = "Você Venceu!";
+                    menuObj.SetActive(true);
                     turn = 3;
                 }
             }
@@ -98,7 +101,8 @@ public class GameController : MonoBehaviour
             lifes--;
             if (lifes == 0)
             {
-                SendGameMessage("GAME OVER!");
+                menuObj.transform.FindChild("Message").GetComponent<Text>().text = "Game Over!";
+                menuObj.SetActive(true);
                 turn = 1;
                 return;
             }
